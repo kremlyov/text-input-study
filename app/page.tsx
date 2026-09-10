@@ -11,7 +11,6 @@ export default function Home() {
           <li>Попросите исправить 20 минут на 30</li>
           <li>Попросите удалить последнее предложение</li>
           <li>Попросите добавить после «Привет» слово — «Андрей»</li>
-          <li>Удалите весь текст</li>
         </ol>
       </section>
       <label className="sr-only" htmlFor="research-input">
@@ -22,7 +21,7 @@ export default function Home() {
           id="research-input"
           className="research-input"
           type="text"
-          placeholder="Введите текст"
+          placeholder="Поле для ввода голосом"
           autoComplete="off"
           autoCapitalize="sentences"
           enterKeyHint="done"

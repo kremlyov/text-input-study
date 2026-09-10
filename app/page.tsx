@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const viewport = window.visualViewport;
 
     if (!viewport) return;
 
     const syncViewport = () => {
-      document.documentElement.style.setProperty(
-        "--visual-viewport-top",
-        `${viewport.offsetTop}px`,
-      );
       document.documentElement.style.setProperty(
         "--visual-viewport-height",
         `${viewport.height}px`,
@@ -21,11 +19,9 @@ export default function Home() {
 
     syncViewport();
     viewport.addEventListener("resize", syncViewport);
-    viewport.addEventListener("scroll", syncViewport);
 
     return () => {
       viewport.removeEventListener("resize", syncViewport);
-      viewport.removeEventListener("scroll", syncViewport);
     };
   }, []);
 
@@ -46,6 +42,7 @@ export default function Home() {
       </label>
       <div className="input-area">
         <input
+          ref={inputRef}
           id="research-input"
           className="research-input"
           type="text"
@@ -53,6 +50,12 @@ export default function Home() {
           autoComplete="off"
           autoCapitalize="sentences"
           enterKeyHint="done"
+          onPointerDown={(event) => {
+            if (document.activeElement !== inputRef.current) {
+              event.preventDefault();
+              inputRef.current?.focus({ preventScroll: true });
+            }
+          }}
         />
       </div>
     </main>

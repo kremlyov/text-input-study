@@ -2,7 +2,9 @@
 
 Минимальный мобильный прототип для исследования голосового ввода текста и системной клавиатуры.
 
-**[Открыть публичный прототип](https://text-input-study.vladadyvats.chatgpt.site)**
+**[Открыть прототип на GitHub Pages](https://kremlyov.github.io/text-input-study/)**
+
+Альтернативная публикация: [ChatGPT Sites](https://text-input-study.vladadyvats.chatgpt.site).
 
 ## Локальный запуск
 

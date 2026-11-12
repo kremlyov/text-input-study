@@ -11,18 +11,30 @@ export default function Home() {
 
     if (!viewport) return;
 
+    let frame = 0;
+
     const syncViewport = () => {
-      document.documentElement.style.setProperty(
-        "--visual-viewport-height",
-        `${viewport.height}px`,
-      );
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty(
+          "--visual-viewport-top",
+          `${viewport.offsetTop}px`,
+        );
+        document.documentElement.style.setProperty(
+          "--visual-viewport-height",
+          `${viewport.height}px`,
+        );
+      });
     };
 
     syncViewport();
     viewport.addEventListener("resize", syncViewport);
+    viewport.addEventListener("scroll", syncViewport);
 
     return () => {
+      cancelAnimationFrame(frame);
       viewport.removeEventListener("resize", syncViewport);
+      viewport.removeEventListener("scroll", syncViewport);
     };
   }, []);
 

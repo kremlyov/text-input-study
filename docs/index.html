@@ -32,6 +32,8 @@
         height: var(--visual-viewport-height, 100dvh);
         overflow: hidden;
         background: #fff;
+        transform: translate3d(0, var(--visual-viewport-top, 0), 0);
+        will-change: transform, height;
       }
 
       .instructions {
@@ -169,13 +171,21 @@
       const input = document.querySelector("input");
       const clearButton = document.querySelector("button");
       const viewport = window.visualViewport;
+      let frame = 0;
 
       const syncViewport = () => {
         if (viewport) {
-          document.documentElement.style.setProperty(
-            "--visual-viewport-height",
-            `${viewport.height}px`,
-          );
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(() => {
+            document.documentElement.style.setProperty(
+              "--visual-viewport-top",
+              `${viewport.offsetTop}px`,
+            );
+            document.documentElement.style.setProperty(
+              "--visual-viewport-height",
+              `${viewport.height}px`,
+            );
+          });
         }
       };
 
@@ -185,6 +195,7 @@
 
       syncViewport();
       viewport?.addEventListener("resize", syncViewport);
+      viewport?.addEventListener("scroll", syncViewport);
       input.addEventListener("input", syncClearButton);
       input.addEventListener("pointerdown", (event) => {
         if (document.activeElement !== input) {
